@@ -1,23 +1,19 @@
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class Order {
     public static void main(String[] args){
-        final String res = order("");
+        final String res = order("is2 Thi1s T4est 3a");
         System.out.println(res);
 
     }
 
-    public static String order(final String words){
-        if (words.length() == 0) return "";
-        final String[] wrds = words.split(" ");
-        final String[] res = new String[wrds.length];
-        for (String wrd : wrds) {
-            final char[] word = wrd.toCharArray();
-            for (char c : word) {
-                if (Character.isDigit(c)) {
-                    res[Character.getNumericValue(c) - 1] = String.valueOf(word);
-                    break;
-                }
-            }
-        }
-        return String.join(" ", res);
+    public static String order(final String words) throws NullPointerException{
+        if (words == null) throw new NullPointerException("words variable cannot be null");
+        // not mine solution below, check prev commits
+        // I found this solution pretty good
+        return Arrays.stream(words.split(" "))
+                .sorted(Comparator.comparing(s -> Integer.parseInt(s.replaceAll("\\D", ""))))
+                .reduce((a, b) -> a + " " + b).get();
     }
 }
